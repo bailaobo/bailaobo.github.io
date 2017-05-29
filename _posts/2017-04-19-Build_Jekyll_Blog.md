@@ -39,6 +39,7 @@ email: #
 weibo_username: # 
 zhihu_username: # 
 linkedIn_username: # 
+description_footer: #
 disqus_shortname: #  
 baidu_tongji_id: #  
 google_analytics_id: #
