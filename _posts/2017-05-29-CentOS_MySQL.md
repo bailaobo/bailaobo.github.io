@@ -21,7 +21,7 @@ vim /etc/hosts　
 ## 查询旧版mysql包
 
 ```
-[root@T02 pkg]# rpm -qa|grep mysql
+[root@T02 pkg]# rpm -qa|grep -i mysql
 mysql-libs-5.1.71-1.el6.x86_64
 ```
 
