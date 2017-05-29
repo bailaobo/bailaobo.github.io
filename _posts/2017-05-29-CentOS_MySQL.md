@@ -8,15 +8,18 @@ tags:
 categories: DB
 date: 2017-05-29 12:12:00
 ---
-centos6.5 安装 mysql5.5.x
--------------
+* content
+{:toc}
+
 ```bash
 添加主机名和IP的映射 修改 /etc/hosts 
 vim /etc/hosts　
 #添加一条 IP HostName
 192.168.31.122 T02
 ```
-1. 查询旧版mysql包
+
+## 查询旧版mysql包
+
 ```
 [root@T02 pkg]# rpm -qa|grep mysql
 mysql-libs-5.1.71-1.el6.x86_64
@@ -24,21 +27,27 @@ mysql-libs-5.1.71-1.el6.x86_64
 
 
 
-2. 卸载mysql-libs包
+
+## 卸载mysql-libs包
+
 ```
 [root@T02 pkg]# rpm -ev mysql-libs-5.1.71-1.el6.x86_64 --nodeps
 ```
-3. 安装msyql server,client,devel 三个包
+
+## 安装msyql server,client,devel 三个包
+
     *.rpm 当文件夹 只有这3个包可以这样用否则请枚举文件名
 ```
 [root@T02 pkg]# rpm -ivh *.rpm | tee  mysql_install.log
 ```
-4. 创建mysql数据目录 修改文件夹属组
+## 创建mysql数据目录 修改文件夹属组
 ```
 mkdir -p /data/mysql 
 chown mysql:mysql /data/mysql
 ```
-5. 拷贝my.cnf，根据不同硬件配置选择不同的my-*.cnf
+
+## 拷贝my.cnf，根据不同硬件配置选择不同的my-*.cnf
+
 ```bash
 cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
 #修改my.cnf配置 修改数据库路径
@@ -52,11 +61,14 @@ socket          = /data/mysql/mysql.sock
 #关闭区分大小写
 lower_case_table_names=1
 ```
-6. 安装数据实例使用自定义数据目录
+
+## 安装数据实例使用自定义数据目录
+
 ```bash
 /usr/bin/mysql_install_db  --datadir=/data/mysql --user=mysql 
 ```
-7. 启动数据库
+
+## 启动数据库
 
 ```text
   启动数据库需要 关闭selinux 
@@ -73,7 +85,9 @@ lower_case_table_names=1
   +------------------------+
 
 ```
-8. MySQL安全配置向导
+
+## MySQL安全配置向导
+
 ```bash
 /usr/bin/mysqladmin -u root password '123456'
 # 如果未设置 IP和主机名称的映射，改行会宝座，造成后面user表 t02(后又改成%) 没有密码字段没有值
@@ -89,7 +103,9 @@ Disallow root login remotely? [Y/n]  #禁用root远程登录 n
 Remove test database and access to it? [Y/n] #删除test数据库 Y
 Reload privilege tables now? [Y/n] #立即重载权限表 Y  
 ```
-9. 设置root远程连接
+
+## 设置root远程连接
+
 ```bash
  #关闭防火墙 或者 开放 数据库端口 （3306）
  #查看防火墙状态
@@ -122,7 +138,9 @@ mysql> flush privileges; /*刷新MySQL的系统权限相关表*/
 service mysql restart
 */
 ```
-10.注意事项
+
+## 注意事项
+
 ```
 root权限过高应该禁止远程连接，建立新的低权限账号来管理数据库。
 ```
